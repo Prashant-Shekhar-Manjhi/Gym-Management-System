@@ -2,8 +2,10 @@ package authentication;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Login extends JFrame{
+public class Login extends JFrame implements ActionListener {
 
     public Login() {
         super("GYM MANAGEMENT SYSTEM");
@@ -49,7 +51,7 @@ public class Login extends JFrame{
         login.add(userNameLabel);
         JTextField email = new JTextField();
         email.setBounds(130, 80, 200, 35);
-        email.setFont(textFont);
+        email.setFont(new Font("serif", Font.PLAIN, 18));
         email.setMargin(new Insets(5, 5, 5, 5));
         email.setBackground(new Color(0, 0, 0));
         email.setForeground(Color.WHITE);
@@ -62,7 +64,7 @@ public class Login extends JFrame{
         login.add(passwordLabel);
         JPasswordField password = new JPasswordField();
         password.setBounds(130, 135,200, 35 );
-        password.setFont(textFont);
+        password.setFont(new Font("serif", Font.PLAIN, 18));
         password.setMargin(new Insets(5, 5, 5, 5));
         password.setBackground(new Color(0, 0, 0));
         password.setForeground(Color.WHITE);
@@ -74,6 +76,7 @@ public class Login extends JFrame{
         JButton btnSign = new JButton("Sign up");
         btnSign.setBounds(20, 260, 310, 30);
         login.add(btnSign);
+        btnSign.addActionListener(this);
 
 
         //frame
@@ -97,4 +100,8 @@ public class Login extends JFrame{
         new Login();
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        new SignUp();
+    }
 }
