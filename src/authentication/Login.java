@@ -1,11 +1,18 @@
 package authentication;
 
+import encoder.JavaBase64;
+import jdbc.JdbcConnection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
-public class Login extends JFrame implements ActionListener {
+public class Login extends JFrame {
+
+    private JTextField email;
+    private JPasswordField password;
 
     public Login() {
         super("GYM MANAGEMENT SYSTEM");
@@ -49,7 +56,7 @@ public class Login extends JFrame implements ActionListener {
         userNameLabel.setForeground(Color.WHITE);
         userNameLabel.setFont(textFont);
         login.add(userNameLabel);
-        JTextField email = new JTextField();
+        email = new JTextField();
         email.setBounds(130, 80, 200, 35);
         email.setFont(new Font("serif", Font.PLAIN, 18));
         email.setMargin(new Insets(5, 5, 5, 5));
@@ -62,7 +69,7 @@ public class Login extends JFrame implements ActionListener {
         passwordLabel.setForeground(Color.WHITE);
         passwordLabel.setFont(textFont);
         login.add(passwordLabel);
-        JPasswordField password = new JPasswordField();
+        password = new JPasswordField();
         password.setBounds(130, 135,200, 35 );
         password.setFont(new Font("serif", Font.PLAIN, 18));
         password.setMargin(new Insets(5, 5, 5, 5));
@@ -73,12 +80,13 @@ public class Login extends JFrame implements ActionListener {
         JButton btnLogin = new JButton("Login");
         btnLogin.setBounds(20, 220, 310, 30);
         btnLogin.setFont(new Font("serif", Font.PLAIN, 16));
+        btnLogin.addActionListener(new BtnLogin());
         login.add(btnLogin);
         JButton btnSign = new JButton("Sign Up");
         btnSign.setBounds(20, 260, 310, 30);
         btnSign.setFont(new Font("serif", Font.PLAIN, 16));
         login.add(btnSign);
-        btnSign.addActionListener(this);
+        btnSign.addActionListener(new BtnSignup());
 
 
         //frame
@@ -98,12 +106,51 @@ public class Login extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new Login();
+    private class BtnLogin extends Component implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try{
+                String emailInput = email.getText();
+                String passwordInput = String.valueOf(password.getPassword());
+
+                if(emailInput.isEmpty() && passwordInput.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Enter valid fields!", "Try Again", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                JdbcConnection connection = new JdbcConnection();
+                JavaBase64 encoderDecoder = new JavaBase64();
+                String query = "SELECT * FROM admins WHERE email = '"+emailInput+"'";
+                ResultSet resultSet = connection.stm.executeQuery(query);
+
+                if(resultSet.next()){
+                    String encodedPassword = resultSet.getString("password");
+                    if(passwordInput.equals(encoderDecoder.decodePassword(encodedPassword))){
+                        JOptionPane.showMessageDialog(this, "Successfully logged in", "Congratulation", JOptionPane.PLAIN_MESSAGE);
+                    }else {
+                        JOptionPane.showMessageDialog(this, "Incorrect Password", "Try Again!", JOptionPane.ERROR_MESSAGE);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Please Sign Up First!", "Not Registered", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }catch(Exception exception){
+                exception.printStackTrace();
+            }
+
+        }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        new SignUp();
+    private class BtnSignup implements  ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new SignUp();
+        }
+    }
+
+    public static void main(String[] args) {
+        new Login();
     }
 }

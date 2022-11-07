@@ -1,5 +1,6 @@
 package authentication;
 
+import encoder.JavaBase64;
 import jdbc.JdbcConnection;
 
 import javax.swing.*;
@@ -96,7 +97,7 @@ public class SignUp extends JFrame implements ActionListener {
         String confirmPassword = String.valueOf(this.confirmPassword.getPassword());
 
         if(email.isEmpty() && name.isEmpty() && password.isEmpty() && confirmPassword.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Please Enter All Fields", "Try Again!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please Enter valid Fields", "Try Again!", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -110,7 +111,9 @@ public class SignUp extends JFrame implements ActionListener {
     private void addUserNameToDatabase(String email, String name, String password) {
         try{
             JdbcConnection con = new JdbcConnection();
-            String query = "insert into admins (email, name, password) values('"+email+"', '"+name+"', '"+password+"')";
+            JavaBase64 encoderDecoder = new JavaBase64();
+            String encodedPassword = encoderDecoder.encodePassword(password);
+            String query = "insert into admins (email, name, password) values('"+email+"', '"+name+"', '"+encodedPassword+"')";
             con.stm.executeUpdate(query);
 
             JOptionPane.showMessageDialog(this, "You are registered as admin!", "congratulation", JOptionPane.PLAIN_MESSAGE);
