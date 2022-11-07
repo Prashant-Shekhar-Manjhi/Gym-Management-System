@@ -72,9 +72,11 @@ public class Login extends JFrame implements ActionListener {
 
         JButton btnLogin = new JButton("Login");
         btnLogin.setBounds(20, 220, 310, 30);
+        btnLogin.setFont(new Font("serif", Font.PLAIN, 16));
         login.add(btnLogin);
-        JButton btnSign = new JButton("Sign up");
+        JButton btnSign = new JButton("Sign Up");
         btnSign.setBounds(20, 260, 310, 30);
+        btnSign.setFont(new Font("serif", Font.PLAIN, 16));
         login.add(btnSign);
         btnSign.addActionListener(this);
 
