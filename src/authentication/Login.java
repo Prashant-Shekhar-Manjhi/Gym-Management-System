@@ -1,6 +1,7 @@
 package authentication;
 
 import encoder.JavaBase64;
+import home.Home;
 import jdbc.JdbcConnection;
 
 import javax.swing.*;
@@ -9,10 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 
-public class Login extends JFrame {
+public class Login extends JFrame implements ActionListener{
 
     private JTextField email;
     private JPasswordField password;
+    private JButton btnLogin;
+    private JButton btnSign;
 
     public Login() {
         super("GYM MANAGEMENT SYSTEM");
@@ -77,16 +80,16 @@ public class Login extends JFrame {
         password.setForeground(Color.WHITE);
         login.add(password);
 
-        JButton btnLogin = new JButton("Login");
+        btnLogin = new JButton("Login");
         btnLogin.setBounds(20, 220, 310, 30);
         btnLogin.setFont(new Font("serif", Font.PLAIN, 16));
-        btnLogin.addActionListener(new BtnLogin());
+        btnLogin.addActionListener(this);
         login.add(btnLogin);
-        JButton btnSign = new JButton("Sign Up");
+        btnSign = new JButton("Sign Up");
         btnSign.setBounds(20, 260, 310, 30);
         btnSign.setFont(new Font("serif", Font.PLAIN, 16));
         login.add(btnSign);
-        btnSign.addActionListener(new BtnSignup());
+        btnSign.addActionListener(this);
 
 
         //frame
@@ -94,7 +97,7 @@ public class Login extends JFrame {
         setSize(1200, 700);
         setLocation(150, 50);
         setExtendedState(MAXIMIZED_BOTH);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         //background
         ImageIcon bgImg = new ImageIcon("src/images/background_1.jpg");
@@ -106,10 +109,9 @@ public class Login extends JFrame {
         setVisible(true);
     }
 
-    private class BtnLogin extends Component implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btnLogin){
             try{
                 String emailInput = email.getText();
                 String passwordInput = String.valueOf(password.getPassword());
@@ -127,7 +129,8 @@ public class Login extends JFrame {
                 if(resultSet.next()){
                     String encodedPassword = resultSet.getString("password");
                     if(passwordInput.equals(encoderDecoder.decodePassword(encodedPassword))){
-                        JOptionPane.showMessageDialog(this, "Successfully logged in", "Congratulation", JOptionPane.PLAIN_MESSAGE);
+                        new Home();
+                        this.dispose();
                     }else {
                         JOptionPane.showMessageDialog(this, "Incorrect Password", "Try Again!", JOptionPane.ERROR_MESSAGE);
                     }
@@ -139,13 +142,7 @@ public class Login extends JFrame {
                 exception.printStackTrace();
             }
 
-        }
-    }
-
-    private class BtnSignup implements  ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
+        }else if(e.getSource() == btnSign){
             new SignUp();
         }
     }
