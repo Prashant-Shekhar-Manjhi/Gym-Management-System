@@ -1,6 +1,9 @@
 package home;
 
+import authentication.Login;
+
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +11,7 @@ import java.awt.event.ActionListener;
 public class Home extends JFrame implements ActionListener {
     private JButton addMember;
     private JButton totalMember, feePayment, feeDetails, updateMember, deleteMember, searchMember, logout;
+    private  JPanel menu;
     public Home(){
         super("GYM MANAGEMENT SYSTEM");
         //Font
@@ -27,10 +31,11 @@ public class Home extends JFrame implements ActionListener {
         header.add(headingName);
 
         //Menu
-        JPanel menu = new JPanel();
+        menu = new JPanel();
         menu.setLayout(null);
         menu.setBounds(320, 150, 900, 550);
-        menu.setBackground(new Color(0,0,0, 100));
+        menu.setBackground(new Color(0,0,0, 160));
+        menu.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
 
         //add member...
         ImageIcon addMemberIcon = new ImageIcon("src/images/add-user.png");
@@ -174,7 +179,8 @@ public class Home extends JFrame implements ActionListener {
         }else if (e.getSource() == searchMember) {
             System.out.println("search member clicked");
         } else if (e.getSource() == logout) {
-            System.out.println("logout clicked clicked");
+            dispose();
+            new Login();
         }
     }
 }
