@@ -91,7 +91,7 @@ public class SignUp extends JFrame implements ActionListener {
         String password = String.valueOf(this.password.getPassword());
         String confirmPassword = String.valueOf(this.confirmPassword.getPassword());
 
-        if(email.isEmpty() && name.isEmpty() && password.isEmpty() && confirmPassword.isEmpty()){
+        if(email.isEmpty() || name.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()){
             JOptionPane.showMessageDialog(this, "Please Enter valid Fields", "Try Again!", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -116,6 +116,9 @@ public class SignUp extends JFrame implements ActionListener {
             con.stm.close();
             con.con.close();
             this.dispose();
-        }catch (Exception e){e.printStackTrace();}
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Try Again", "Failed", JOptionPane.ERROR_MESSAGE);
+
+        }
     }
 }

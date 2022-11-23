@@ -1,10 +1,17 @@
 package payment;
 
+import encoder.JavaBase64;
+import jdbc.JdbcConnection;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Payment extends JFrame {
+public class Payment extends JFrame implements ActionListener {
     private JTextField paymentId, paymentDate;
+    private JComboBox monthInput,amountInput;
+    private JButton btnSubmit, btnCancel;
     public Payment(){
         super("GYM MANAGEMENT SYSTEM");
 
@@ -41,31 +48,32 @@ public class Payment extends JFrame {
         monthLabel.setBounds(30, 145, 100, 50);
         monthLabel.setFont(textFont);
         add(monthLabel);
-        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        JComboBox monthInput = new JComboBox(months);
+        String[] months = {"","January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        monthInput = new JComboBox(months);
         monthInput.setBounds(160, 160, 200, 25);
         monthInput.setFont(new Font("serif", Font.PLAIN, 16));
         add(monthInput);
+
 
         JLabel amountLabel = new JLabel("Amount");
         amountLabel.setBounds(30, 195, 100, 50);
         amountLabel.setFont(textFont);
         add(amountLabel);
-        String[] amounts = {"650", "1250"};
-        JComboBox amountInput = new JComboBox(amounts);
+        String[] amounts = {"", "650", "1250"};
+        amountInput = new JComboBox(amounts);
         amountInput.setBounds(160, 210, 200, 25);
         amountInput.setFont(new Font("serif", Font.PLAIN, 16));
         add(amountInput);
 
-        JButton btnSubmit = new JButton("Submit");
+        btnSubmit = new JButton("Submit");
         btnSubmit.setBounds(30, 265, 150, 30);
         btnSubmit.setFont(new Font("serif", Font.PLAIN, 16));
-//        btnSubmit.addActionListener(this);
+        btnSubmit.addActionListener(this);
         add(btnSubmit);
-        JButton btnCancel = new JButton("Cancel");
+        btnCancel = new JButton("Cancel");
         btnCancel.setBounds(210, 265, 150, 30);
         btnCancel.setFont(new Font("serif", Font.PLAIN, 16));
-//        btnCancel.addActionListener(this);
+        btnCancel.addActionListener(this);
         add(btnCancel);
 
         //Frame...
@@ -76,7 +84,40 @@ public class Payment extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new Payment();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btnCancel){
+            dispose();
+        }
+        if(e.getSource() == btnSubmit){
+            String memberId = paymentId.getText();
+            String date = paymentDate.getText();
+            String month = monthInput.getSelectedItem().toString();
+            String amount = amountInput.getSelectedItem().toString();
+
+            if(memberId.isEmpty() || date.isEmpty() || month.isEmpty() || amount.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Please Enter valid Fields", "Try Again!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            makePayment(Integer.parseInt(memberId), date, month, amount);
+        }
     }
+
+    private void makePayment(int memberId, String date, String month, String amount) {
+        try{
+            JdbcConnection con = new JdbcConnection();
+            String query = "insert into payments (member_id, amount, month, date_of_payment) values('"+memberId+"', '"+amount+"', '"+month+"','"+date+"')";
+            con.stm.executeUpdate(query);
+
+            JOptionPane.showMessageDialog(this, "Payment Successful!", "", JOptionPane.PLAIN_MESSAGE);
+
+            con.stm.close();
+            con.con.close();
+            this.dispose();
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Try Again", "Failed", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }

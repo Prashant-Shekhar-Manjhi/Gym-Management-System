@@ -1,6 +1,11 @@
 package home;
 
+import add.Add;
 import authentication.Login;
+import payment.Payment;
+import search.Search;
+import update.Update;
+import view.View;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -165,19 +170,19 @@ public class Home extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == addMember){
-            System.out.println("Add member Clicked!");
+            new Add();
         } else if (e.getSource() == totalMember) {
-            System.out.println("Total Members Clicked");
+            new View();
         } else if (e.getSource() == feePayment) {
-            System.out.println("pay fee clicked");
+            new Payment();
         } else if (e.getSource() == feeDetails) {
             System.out.println("fee Details clicked");
         }else if (e.getSource() == updateMember) {
-            System.out.println("update member clicked");
+            new Update();
         }else if (e.getSource() == deleteMember) {
             System.out.println("delete member clicked");
         }else if (e.getSource() == searchMember) {
-            System.out.println("search member clicked");
+            new Search();
         } else if (e.getSource() == logout) {
             dispose();
             new Login();

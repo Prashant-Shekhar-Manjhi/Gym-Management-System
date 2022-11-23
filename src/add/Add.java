@@ -1,15 +1,24 @@
 package add;
 
+import Members.Member;
+import Members.Trainer;
+import jdbc.JdbcConnection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Array;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class Add extends JFrame implements ActionListener {
-    private JButton btnChoice;
+    private JButton btnChoice, submitAddTrainerBtn, submitAddMemberBtn, cancelAddTrainerBtn,cancelAddMemberBtn;
     JRadioButton btnAddMember, btnAddTrainer;
     JPanel addMemberPanel, addTrainerPanel;
+
+    JTextField tnameInput, temailInput, tcontactInput, taddressInput,nameInput, emailInput, addressInput, contactInput, dojInput, dobInput;
+    JComboBox genderInput, timeInput,  trainerInput, feeInput;
     public Add(){
         super("GYM MANAGEMENT SYSTEM");
 
@@ -23,6 +32,7 @@ public class Add extends JFrame implements ActionListener {
         header.setLayout(null);
         header.setBounds(0, 0, 1200, 50);
         add(header);
+
 
         //option
         btnAddMember = new JRadioButton("Add Member", true);
@@ -40,7 +50,7 @@ public class Add extends JFrame implements ActionListener {
         btnChoice.addActionListener(this);
         header.add(btnChoice);
 
-        //Add Member
+        //Add Member Panel
         addMemberPanel = new JPanel();
         addMemberPanel.setLayout(null);
         addMemberPanel.setBounds(180, 100, 850, 500);
@@ -53,7 +63,7 @@ public class Add extends JFrame implements ActionListener {
         nameLabel.setBounds(50, 80, 80, 20);
         nameLabel.setFont(textFont);
         addMemberPanel.add(nameLabel);
-        JTextField nameInput = new JTextField();
+        nameInput = new JTextField();
         nameInput.setBounds(160, 80, 200, 25);
         nameInput.setFont(new Font("serif", Font.PLAIN, 14));
         nameInput.setMargin(new Insets(2, 2, 2, 2));
@@ -63,7 +73,7 @@ public class Add extends JFrame implements ActionListener {
         contactLabel.setBounds(50, 140, 80, 20);
         contactLabel.setFont(textFont);
         addMemberPanel.add(contactLabel);
-        JTextField contactInput = new JTextField();
+        contactInput = new JTextField();
         contactInput.setBounds(160, 142, 200, 25);
         contactInput.setFont(new Font("serif", Font.PLAIN, 14));
         contactInput.setMargin(new Insets(2, 2, 2, 2));
@@ -74,7 +84,7 @@ public class Add extends JFrame implements ActionListener {
         genderLabel.setFont(textFont);
         addMemberPanel.add(genderLabel);
         String[] genderOpt = {"", "Male", "Female"};
-        JComboBox genderInput = new JComboBox(genderOpt);
+        genderInput = new JComboBox(genderOpt);
         genderInput.setBounds(160, 200, 200, 25);
         addMemberPanel.add(genderInput);
 
@@ -83,15 +93,25 @@ public class Add extends JFrame implements ActionListener {
         timeLabel.setFont(textFont);
         addMemberPanel.add(timeLabel);
         String[] timeOpt = {"","Morning", "Evening"};
-        JComboBox timeInput = new JComboBox(timeOpt);
+        timeInput = new JComboBox(timeOpt);
         timeInput.setBounds(160, 260, 200, 25);
         addMemberPanel.add(timeInput);
+
+        JLabel feeLabel = new JLabel("Fee");
+        feeLabel.setBounds(50, 320, 80, 20);
+        feeLabel.setFont(textFont);
+        addMemberPanel.add(feeLabel);
+        String[] feeOpt = {"","650", "1250"};
+        feeInput = new JComboBox(feeOpt);
+        feeInput.setBounds(160, 320, 200, 25);
+        addMemberPanel.add(feeInput);
+
 
         JLabel emailLabel = new JLabel("Email");
         emailLabel.setBounds(460, 80, 80, 20);
         emailLabel.setFont(textFont);
         addMemberPanel.add(emailLabel);
-        JTextField emailInput = new JTextField();
+        emailInput = new JTextField();
         emailInput.setBounds(550, 80, 200, 25);
         emailInput.setFont(new Font("serif", Font.PLAIN, 14));
         emailInput.setMargin(new Insets(2, 2, 2, 2));
@@ -101,7 +121,7 @@ public class Add extends JFrame implements ActionListener {
         addressLabel.setBounds(460, 140, 80, 20);
         addressLabel.setFont(textFont);
         addMemberPanel.add(addressLabel);
-        JTextField addressInput = new JTextField();
+        addressInput = new JTextField();
         addressInput.setBounds(550, 140, 200, 25);
         addressInput.setFont(new Font("serif", Font.PLAIN, 14));
         addressInput.setMargin(new Insets(2, 2, 2, 2));
@@ -111,7 +131,7 @@ public class Add extends JFrame implements ActionListener {
         dobLabel.setBounds(460, 200, 80, 20);
         dobLabel.setFont(textFont);
         addMemberPanel.add(dobLabel);
-        JTextField dobInput = new JTextField();
+        dobInput = new JTextField();
         dobInput.setBounds(550, 200, 200, 25);
         dobInput.setFont(new Font("serif", Font.PLAIN, 14));
         dobInput.setMargin(new Insets(2, 2, 2, 2));
@@ -121,19 +141,30 @@ public class Add extends JFrame implements ActionListener {
         dojLabel.setBounds(460, 260, 80, 20);
         dojLabel.setFont(textFont);
         addMemberPanel.add(dojLabel);
-        JTextField dojInput = new JTextField();
+        dojInput = new JTextField();
         dojInput.setBounds(550, 260, 200, 25);
         dojInput.setFont(new Font("serif", Font.PLAIN, 14));
         dojInput.setMargin(new Insets(2, 2, 2, 2));
         addMemberPanel.add(dojInput);
 
-        JButton submitAddMemberBtn = new JButton("Submit");
-        submitAddMemberBtn.setBounds(50, 320, 150, 30);
+        JLabel trainerLabel = new JLabel("Trainer");
+        trainerLabel.setBounds(460, 320, 80, 20);
+        trainerLabel.setFont(textFont);
+        addMemberPanel.add(trainerLabel);
+        String[] trainerOpt = getTrainerList();
+        trainerInput = new JComboBox(trainerOpt);
+        trainerInput.setBounds(550, 320, 200, 25);
+        addMemberPanel.add(trainerInput);
+
+        submitAddMemberBtn = new JButton("Submit");
+        submitAddMemberBtn.setBounds(50, 380, 150, 30);
         submitAddMemberBtn.setFont(new Font("serif", Font.PLAIN, 18));
+        submitAddMemberBtn.addActionListener(this);
         addMemberPanel.add(submitAddMemberBtn);
-        JButton cancelAddMemberBtn = new JButton("Cancel");
-        cancelAddMemberBtn.setBounds(210, 320, 150, 30);
+        cancelAddMemberBtn = new JButton("Cancel");
+        cancelAddMemberBtn.setBounds(210, 380, 150, 30);
         cancelAddMemberBtn.setFont(new Font("serif", Font.PLAIN, 18));
+        cancelAddMemberBtn.addActionListener(this);
         addMemberPanel.add(cancelAddMemberBtn);
 
         add(addMemberPanel);
@@ -152,7 +183,7 @@ public class Add extends JFrame implements ActionListener {
         tnameLabel.setBounds(260, 80, 80, 20);
         tnameLabel.setFont(textFont);
         addTrainerPanel.add(tnameLabel);
-        JTextField tnameInput = new JTextField();
+        tnameInput = new JTextField();
         tnameInput.setBounds(370, 80, 200, 25);
         tnameInput.setFont(new Font("serif", Font.PLAIN, 14));
         tnameInput.setMargin(new Insets(2, 2, 2, 2));
@@ -162,7 +193,7 @@ public class Add extends JFrame implements ActionListener {
         temailLabel.setBounds(260, 140, 80, 20);
         temailLabel.setFont(textFont);
         addTrainerPanel.add(temailLabel);
-        JTextField temailInput = new JTextField();
+        temailInput = new JTextField();
         temailInput.setBounds(370, 142, 200, 25);
         temailInput.setFont(new Font("serif", Font.PLAIN, 14));
         temailInput.setMargin(new Insets(2, 2, 2, 2));
@@ -172,7 +203,7 @@ public class Add extends JFrame implements ActionListener {
         tcontactLabel.setBounds(260, 200, 80, 20);
         tcontactLabel.setFont(textFont);
         addTrainerPanel.add(tcontactLabel);
-        JTextField tcontactInput = new JTextField();
+        tcontactInput = new JTextField();
         tcontactInput.setBounds(370, 200, 200, 25);
         addTrainerPanel.add(tcontactInput);
 
@@ -180,18 +211,20 @@ public class Add extends JFrame implements ActionListener {
         taddressLabel.setBounds(260, 260, 80, 20);
         taddressLabel.setFont(textFont);
         addTrainerPanel.add(taddressLabel);
-        JTextField taddressInput = new JTextField();
+        taddressInput = new JTextField();
         taddressInput.setBounds(370, 260, 200, 25);
         addTrainerPanel.add(taddressInput);
 
 
-        JButton submitAddTrainerBtn = new JButton("Submit");
+        submitAddTrainerBtn = new JButton("Submit");
         submitAddTrainerBtn.setBounds(260, 320, 150, 30);
         submitAddTrainerBtn.setFont(new Font("serif", Font.PLAIN, 18));
+        submitAddTrainerBtn.addActionListener(this);
         addTrainerPanel.add(submitAddTrainerBtn);
-        JButton cancelAddTrainerBtn = new JButton("Cancel");
+        cancelAddTrainerBtn = new JButton("Cancel");
         cancelAddTrainerBtn.setBounds(420, 320, 150, 30);
         cancelAddTrainerBtn.setFont(new Font("serif", Font.PLAIN, 18));
+        cancelAddTrainerBtn.addActionListener(this);
         addTrainerPanel.add(cancelAddTrainerBtn);
 
         addTrainerPanel.setVisible(false);
@@ -203,6 +236,26 @@ public class Add extends JFrame implements ActionListener {
         setLocation(150, 50);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
+    }
+
+    private String[] getTrainerList() {
+
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("");
+        JdbcConnection connection = new JdbcConnection();
+        String query = "SELECT name FROM trainers";
+        try{
+            ResultSet resultSet = connection.stm.executeQuery(query);
+            while (resultSet.next()){
+                String name = resultSet.getString("name");
+                list.add(name);
+            }
+
+        }catch (Exception exc){
+            exc.printStackTrace();
+        }
+        String[] res = list.toArray(new String[list.size()]);
+        return res;
     }
 
     public static void main(String[] args) {
@@ -219,6 +272,95 @@ public class Add extends JFrame implements ActionListener {
                 addMemberPanel.setVisible(false);
                 addTrainerPanel.setVisible(true);
             }
+        }
+        if(e.getSource() == submitAddTrainerBtn){
+            String name = tnameInput.getText();
+            String email = temailInput.getText();
+            String phone = tcontactInput.getText();
+            String address = taddressInput.getText();
+            if(email.isEmpty() || name.isEmpty() || phone.isEmpty() || address.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Please Enter valid Fields", "Try Again!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Trainer trainer = new Trainer(name, email, phone, address);
+            boolean flag = trainer.addTrainer();
+            if(flag){
+                JOptionPane.showMessageDialog(this, "Successfully Added !", "Added", JOptionPane.PLAIN_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "Try Again", "Failed", JOptionPane.ERROR_MESSAGE);
+            }
+
+            tnameInput.setText("");
+            temailInput.setText("");
+            tcontactInput.setText("");
+            taddressInput.setText("");
+        }
+
+        if(e.getSource() == submitAddMemberBtn){
+            String name = nameInput.getText();
+            String phone = contactInput.getText();
+            String email = emailInput.getText();
+            String dob = dobInput.getText();
+            String doj = dojInput.getText();
+            String address = addressInput.getText();
+            String gender = genderInput.getSelectedItem().toString();
+            String time = timeInput.getSelectedItem().toString();
+            String fee = feeInput.getSelectedItem().toString();
+            String trainer = trainerInput.getSelectedItem().toString();
+
+            if(email.isEmpty() || name.isEmpty() || phone.isEmpty() || dob.isEmpty() || doj.isEmpty() || address.isEmpty() || gender.isEmpty() || time.isEmpty() || fee.isEmpty() || trainer.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Please Enter valid Fields", "Try Again!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Member member = new Member(
+                    name,
+                    phone,
+                    email,
+                    dob,
+                    doj,
+                    address,
+                    gender,
+                    time,
+                    fee,
+                    trainer
+            );
+            boolean flag = member.addMemberToDB();
+            if(flag){
+                JOptionPane.showMessageDialog(this, "Successfully Added !", "Added", JOptionPane.PLAIN_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "Try Again", "Failed", JOptionPane.ERROR_MESSAGE);
+            }
+            nameInput.setText("");
+            contactInput.setText("");
+            emailInput.setText("");
+            dobInput.setText("");
+            dojInput.setText("");
+            addressInput.setText("");
+            genderInput.setSelectedIndex(0);
+            timeInput.setSelectedIndex(0);
+            feeInput.setSelectedIndex(0);
+            trainerInput.setSelectedIndex(0);
+        }
+
+        if(e.getSource() == cancelAddMemberBtn){
+            nameInput.setText("");
+            contactInput.setText("");
+            emailInput.setText("");
+            dobInput.setText("");
+            dojInput.setText("");
+            addressInput.setText("");
+            genderInput.setSelectedIndex(0);
+            timeInput.setSelectedIndex(0);
+            feeInput.setSelectedIndex(0);
+            trainerInput.setSelectedIndex(0);
+        }
+
+        if(e.getSource() == cancelAddTrainerBtn){
+            tnameInput.setText("");
+            temailInput.setText("");
+            tcontactInput.setText("");
+            taddressInput.setText("");
         }
     }
 }

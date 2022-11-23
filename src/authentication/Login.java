@@ -116,7 +116,7 @@ public class Login extends JFrame implements ActionListener{
                 String emailInput = email.getText();
                 String passwordInput = String.valueOf(password.getPassword());
 
-                if(emailInput.isEmpty() && passwordInput.isEmpty()){
+                if(emailInput.isEmpty() || passwordInput.isEmpty()){
                     JOptionPane.showMessageDialog(this, "Enter valid fields!", "Try Again", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -139,7 +139,7 @@ public class Login extends JFrame implements ActionListener{
                 }
 
             }catch(Exception exception){
-                exception.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Try Again", "Failed", JOptionPane.ERROR_MESSAGE);
             }
 
         }else if(e.getSource() == btnSign){
