@@ -2,7 +2,9 @@ package home;
 
 import add.Add;
 import authentication.Login;
+import delete.Delete;
 import payment.Payment;
+import payment.PaymentDetails;
 import search.Search;
 import update.Update;
 import view.View;
@@ -176,11 +178,11 @@ public class Home extends JFrame implements ActionListener {
         } else if (e.getSource() == feePayment) {
             new Payment();
         } else if (e.getSource() == feeDetails) {
-            System.out.println("fee Details clicked");
+            new PaymentDetails();
         }else if (e.getSource() == updateMember) {
             new Update();
         }else if (e.getSource() == deleteMember) {
-            System.out.println("delete member clicked");
+            new Delete();
         }else if (e.getSource() == searchMember) {
             new Search();
         } else if (e.getSource() == logout) {

@@ -1,4 +1,4 @@
-package update;
+package delete;
 
 import jdbc.JdbcConnection;
 
@@ -9,14 +9,13 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class Update extends JFrame implements ActionListener {
-    private JButton  updateAddMemberBtn, btnSearch,btnBack;
-    JPanel addMemberPanel;
-    JTextField nameInput, emailInput, addressInput, contactInput, dojInput, dobInput, memberId;
+public class Delete extends JFrame implements ActionListener {
+    private JButton btnBack, btnSearch, btnDelete;
+    private JTextField nameInput, emailInput, addressInput, contactInput, dojInput, dobInput, memberId;
+    private  JPanel deleteMemberPanel;
     JComboBox genderInput, timeInput,  trainerInput, feeInput;
-    public Update(){
-        super("GYM MANAGEMENT SYSTEM");
-
+    public Delete(){
+        super("Gym Management System");
         Font textFont = new Font("serif", Font.PLAIN, 22);
         Font subHeadingFont = new Font("serif", Font.PLAIN, 24);
 
@@ -52,117 +51,117 @@ public class Update extends JFrame implements ActionListener {
 
 
         //update Member Panel
-        addMemberPanel = new JPanel();
-        addMemberPanel.setLayout(null);
-        addMemberPanel.setBounds(180, 100, 850, 500);
-        JLabel addMemberHeading = new JLabel("Update Member");
-        addMemberHeading.setBounds(350, 5, 180, 40);
-        addMemberHeading.setFont(subHeadingFont);
-        addMemberPanel.add(addMemberHeading);
+        deleteMemberPanel = new JPanel();
+        deleteMemberPanel.setLayout(null);
+        deleteMemberPanel.setBounds(180, 100, 850, 500);
+        JLabel deleteMemberHeading = new JLabel("Delete Member");
+        deleteMemberHeading.setBounds(350, 5, 180, 40);
+        deleteMemberHeading.setFont(subHeadingFont);
+        deleteMemberPanel.add(deleteMemberHeading);
 
         JLabel nameLabel = new JLabel("Name");
         nameLabel.setBounds(50, 80, 80, 20);
         nameLabel.setFont(textFont);
-        addMemberPanel.add(nameLabel);
+        deleteMemberPanel.add(nameLabel);
         nameInput = new JTextField();
         nameInput.setBounds(160, 80, 200, 25);
         nameInput.setFont(new Font("serif", Font.PLAIN, 14));
         nameInput.setMargin(new Insets(2, 2, 2, 2));
-        addMemberPanel.add(nameInput);
+        deleteMemberPanel.add(nameInput);
 
         JLabel contactLabel = new JLabel("Phone");
         contactLabel.setBounds(50, 140, 80, 20);
         contactLabel.setFont(textFont);
-        addMemberPanel.add(contactLabel);
+        deleteMemberPanel.add(contactLabel);
         contactInput = new JTextField();
         contactInput.setBounds(160, 142, 200, 25);
         contactInput.setFont(new Font("serif", Font.PLAIN, 14));
         contactInput.setMargin(new Insets(2, 2, 2, 2));
-        addMemberPanel.add(contactInput);
+        deleteMemberPanel.add(contactInput);
 
         JLabel genderLabel = new JLabel("Gender");
         genderLabel.setBounds(50, 200, 80, 20);
         genderLabel.setFont(textFont);
-        addMemberPanel.add(genderLabel);
+        deleteMemberPanel.add(genderLabel);
         String[] genderOpt = {"", "Male", "Female"};
         genderInput = new JComboBox(genderOpt);
         genderInput.setBounds(160, 200, 200, 25);
-        addMemberPanel.add(genderInput);
+        deleteMemberPanel.add(genderInput);
 
         JLabel timeLabel = new JLabel("Time");
         timeLabel.setBounds(50, 260, 80, 20);
         timeLabel.setFont(textFont);
-        addMemberPanel.add(timeLabel);
+        deleteMemberPanel.add(timeLabel);
         String[] timeOpt = {"","Morning", "Evening"};
         timeInput = new JComboBox(timeOpt);
         timeInput.setBounds(160, 260, 200, 25);
-        addMemberPanel.add(timeInput);
+        deleteMemberPanel.add(timeInput);
 
         JLabel feeLabel = new JLabel("Fee");
         feeLabel.setBounds(50, 320, 80, 20);
         feeLabel.setFont(textFont);
-        addMemberPanel.add(feeLabel);
+        deleteMemberPanel.add(feeLabel);
         String[] feeOpt = {"","650", "1250"};
         feeInput = new JComboBox(feeOpt);
         feeInput.setBounds(160, 320, 200, 25);
-        addMemberPanel.add(feeInput);
+        deleteMemberPanel.add(feeInput);
 
 
         JLabel emailLabel = new JLabel("Email");
         emailLabel.setBounds(460, 80, 80, 20);
         emailLabel.setFont(textFont);
-        addMemberPanel.add(emailLabel);
+        deleteMemberPanel.add(emailLabel);
         emailInput = new JTextField();
         emailInput.setBounds(550, 80, 200, 25);
         emailInput.setFont(new Font("serif", Font.PLAIN, 14));
         emailInput.setMargin(new Insets(2, 2, 2, 2));
-        addMemberPanel.add(emailInput);
+        deleteMemberPanel.add(emailInput);
 
         JLabel addressLabel = new JLabel("Address");
         addressLabel.setBounds(460, 140, 80, 20);
         addressLabel.setFont(textFont);
-        addMemberPanel.add(addressLabel);
+        deleteMemberPanel.add(addressLabel);
         addressInput = new JTextField();
         addressInput.setBounds(550, 140, 200, 25);
         addressInput.setFont(new Font("serif", Font.PLAIN, 14));
         addressInput.setMargin(new Insets(2, 2, 2, 2));
-        addMemberPanel.add(addressInput);
+        deleteMemberPanel.add(addressInput);
 
         JLabel dobLabel = new JLabel("DOB");
         dobLabel.setBounds(460, 200, 80, 20);
         dobLabel.setFont(textFont);
-        addMemberPanel.add(dobLabel);
+        deleteMemberPanel.add(dobLabel);
         dobInput = new JTextField();
         dobInput.setBounds(550, 200, 200, 25);
         dobInput.setFont(new Font("serif", Font.PLAIN, 14));
         dobInput.setMargin(new Insets(2, 2, 2, 2));
-        addMemberPanel.add(dobInput);
+        deleteMemberPanel.add(dobInput);
 
         JLabel dojLabel = new JLabel("DOJ");
         dojLabel.setBounds(460, 260, 80, 20);
         dojLabel.setFont(textFont);
-        addMemberPanel.add(dojLabel);
+        deleteMemberPanel.add(dojLabel);
         dojInput = new JTextField();
         dojInput.setBounds(550, 260, 200, 25);
         dojInput.setFont(new Font("serif", Font.PLAIN, 14));
         dojInput.setMargin(new Insets(2, 2, 2, 2));
-        addMemberPanel.add(dojInput);
+        deleteMemberPanel.add(dojInput);
 
         JLabel trainerLabel = new JLabel("Trainer");
         trainerLabel.setBounds(460, 320, 80, 20);
         trainerLabel.setFont(textFont);
-        addMemberPanel.add(trainerLabel);
+        deleteMemberPanel.add(trainerLabel);
         String[] trainerOpt = getTrainerList();
         trainerInput = new JComboBox(trainerOpt);
         trainerInput.setBounds(550, 320, 200, 25);
-        addMemberPanel.add(trainerInput);
+        deleteMemberPanel.add(trainerInput);
 
-        updateAddMemberBtn = new JButton("Update");
-        updateAddMemberBtn.setBounds(50, 380, 150, 30);
-        updateAddMemberBtn.setFont(new Font("serif", Font.PLAIN, 18));
-        updateAddMemberBtn.addActionListener(this);
-        addMemberPanel.add(updateAddMemberBtn);
-        add(addMemberPanel);
+        btnDelete = new JButton("Delete");
+        btnDelete.setBounds(50, 380, 150, 30);
+        btnDelete.setFont(new Font("serif", Font.PLAIN, 18));
+        btnDelete.addActionListener(this);
+        deleteMemberPanel.add(btnDelete);
+        add(deleteMemberPanel);
 
 
         //Frame...
@@ -171,31 +170,24 @@ public class Update extends JFrame implements ActionListener {
         setLocation(150, 50);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btnSearch){
-            searchMember();
-        }
-
-        if(e.getSource() == updateAddMemberBtn){
-            updateMember();
-        }
-
-        if(e.getSource() == btnBack){
-            dispose();
-        }
+        if(e.getSource()==btnSearch){searchMember();}
+        if(e.getSource()==btnDelete){deleteMember();}
+        if(e.getSource()==btnBack){dispose();}
     }
 
-    private void updateMember() {
+    private void deleteMember() {
         try{
             JdbcConnection con = new JdbcConnection();
             int lid = Integer.parseInt(memberId.getText());
-            String query = "update members set name = '"+nameInput.getText()+"',email ='"+emailInput.getText()+"', contact_no = '"+contactInput.getText()+"', address = '"+addressInput.getText()+"', gender='"+genderInput.getSelectedItem()+"',date_of_birth='"+dobInput.getText()+"',fee='"+feeInput.getSelectedItem()+"',date_of_joining='"+dojInput.getText()+"',gym_time='"+timeInput.getSelectedItem()+"',trainer_name='"+trainerInput.getSelectedItem()+"' where id ="+lid;
+            String query = "Delete from members where id ="+lid;
             con.stm.executeUpdate(query);
 
-            JOptionPane.showMessageDialog(this, "Updated Successfully", "Update", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Successfully Deleted!", "Deleted", JOptionPane.PLAIN_MESSAGE);
 
             con.stm.close();
             con.con.close();
@@ -256,5 +248,9 @@ public class Update extends JFrame implements ActionListener {
         }
         String[] res = list.toArray(new String[list.size()]);
         return res;
+    }
+
+    public static void main(String[] args) {
+        new Delete();
     }
 }

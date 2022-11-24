@@ -2,7 +2,6 @@ package Members;
 
 import jdbc.JdbcConnection;
 
-import javax.swing.*;
 
 public class Trainer {
     private String name;
