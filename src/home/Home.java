@@ -45,7 +45,8 @@ public class Home extends JFrame implements ActionListener {
         menu.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
 
         //add member...
-        ImageIcon addMemberIcon = new ImageIcon("src/images/add-user.png");
+//        ImageIcon addMemberIcon = new ImageIcon("src/images/add-user.png");
+        ImageIcon addMemberIcon = new ImageIcon(getClass().getResource("/images/add-user.png"));
         Image addMemberScaledImg = addMemberIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         addMember = new JButton(new ImageIcon(addMemberScaledImg));
         addMember.setBounds(90, 60, 110, 110);
@@ -59,7 +60,8 @@ public class Home extends JFrame implements ActionListener {
         menu.add(addMemberLabel);
 
         //total members
-        ImageIcon totalMemberIcon = new ImageIcon("src/images/group.png");
+//        ImageIcon totalMemberIcon = new ImageIcon("src/images/group.png");
+        ImageIcon totalMemberIcon = new ImageIcon(getClass().getResource("/images/group.png"));
         Image totalScaledImg = totalMemberIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         totalMember = new JButton(new ImageIcon(totalScaledImg));
         totalMember.setBounds(290, 60, 110, 110);
@@ -72,7 +74,8 @@ public class Home extends JFrame implements ActionListener {
         menu.add(totalMemberLabel);
 
         //fee payment...
-        ImageIcon feePaymentIcon = new ImageIcon("src/images/cash-payment.png");
+//        ImageIcon feePaymentIcon = new ImageIcon("src/images/cash-payment.png");
+        ImageIcon feePaymentIcon = new ImageIcon(getClass().getResource("/images/cash-payment.png"));
         Image feePaymentImg = feePaymentIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         feePayment = new JButton(new ImageIcon(feePaymentImg));
         feePayment.setBounds(485, 60, 110, 110);
@@ -85,7 +88,8 @@ public class Home extends JFrame implements ActionListener {
         menu.add(feePaymentLabel);
 
         //fee details...
-        ImageIcon feeDetailsIcon = new ImageIcon("src/images/fee-details.png");
+//        ImageIcon feeDetailsIcon = new ImageIcon("src/images/fee-details.png");
+        ImageIcon feeDetailsIcon = new ImageIcon(getClass().getResource("/images/fee-details.png"));
         Image feeDetailsImg = feeDetailsIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         feeDetails = new JButton(new ImageIcon(feeDetailsImg));
         feeDetails.setBounds(680, 60, 110, 110);
@@ -98,7 +102,8 @@ public class Home extends JFrame implements ActionListener {
         menu.add(feeDetailsLabel);
 
         //update member
-        ImageIcon updateMemberIcon = new ImageIcon("src/images/update.png");
+//        ImageIcon updateMemberIcon = new ImageIcon("src/images/update.png");
+        ImageIcon updateMemberIcon = new ImageIcon(getClass().getResource("/images/update.png"));
         Image updateMemberImg = updateMemberIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         updateMember = new JButton(new ImageIcon(updateMemberImg));
         updateMember.setBounds(90, 300, 110, 110);
@@ -111,7 +116,8 @@ public class Home extends JFrame implements ActionListener {
         menu.add(updateMemberLabel);
 
         //Delete member
-        ImageIcon deleteMemberIcon = new ImageIcon("src/images/delete.png");
+//        ImageIcon deleteMemberIcon = new ImageIcon("src/images/delete.png");
+        ImageIcon deleteMemberIcon = new ImageIcon(getClass().getResource("/images/delete.png"));
         Image deleteMemberImg = deleteMemberIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         deleteMember = new JButton(new ImageIcon(deleteMemberImg));
         deleteMember.setBounds(290, 300, 110, 110);
@@ -124,7 +130,8 @@ public class Home extends JFrame implements ActionListener {
         menu.add(deleteMemberLabel);
 
         //Search member
-        ImageIcon searchMemberIcon = new ImageIcon("src/images/search.png");
+//        ImageIcon searchMemberIcon = new ImageIcon("src/images/search.png");
+        ImageIcon searchMemberIcon = new ImageIcon(getClass().getResource("/images/search.png"));
         Image searchMemberImg = searchMemberIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         searchMember = new JButton(new ImageIcon(searchMemberImg));
         searchMember.setBounds(485, 300, 110, 110);
@@ -137,7 +144,8 @@ public class Home extends JFrame implements ActionListener {
         menu.add(searchMemberLabel);
 
         //Logout
-        ImageIcon logoutIcon = new ImageIcon("src/images/logout.png");
+//        ImageIcon logoutIcon = new ImageIcon("src/images/logout.png");
+        ImageIcon logoutIcon = new ImageIcon(getClass().getResource("/images/logout.png"));
         Image logoutImg = logoutIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         logout = new JButton(new ImageIcon(logoutImg));
         logout.setBounds(680, 300, 110, 110);
@@ -155,7 +163,8 @@ public class Home extends JFrame implements ActionListener {
         setBounds(150, 50, 1200, 700);
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        ImageIcon bgImg = new ImageIcon("src/images/background_2.jpg");
+        //ImageIcon bgImg = new ImageIcon("src/images/background_2.jpg");
+        ImageIcon bgImg = new ImageIcon(getClass().getResource("/images/background_2.jpg"));
         Image newImage = bgImg.getImage().getScaledInstance(1600, 800, Image.SCALE_SMOOTH);
         ImageIcon newImageIcon = new ImageIcon(newImage);
         JLabel background = new JLabel("", newImageIcon, JLabel.CENTER);

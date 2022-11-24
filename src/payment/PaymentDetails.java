@@ -122,10 +122,6 @@ public class PaymentDetails extends JFrame implements ActionListener {
         return res;
     }
 
-    public static void main(String[] args) {
-        new PaymentDetails();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==btnBack){

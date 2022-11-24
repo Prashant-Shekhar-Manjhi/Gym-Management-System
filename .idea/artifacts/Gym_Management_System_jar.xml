@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Gym Management System:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Gym_Management_System_jar</output-path>
+    <root id="archive" name="Gym Management System.jar">
+      <element id="module-output" name="Gym Management System" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../mysql-connector-j-8.0.31.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

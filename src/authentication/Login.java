@@ -100,7 +100,8 @@ public class Login extends JFrame implements ActionListener{
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         //background
-        ImageIcon bgImg = new ImageIcon("src/images/background_1.jpg");
+        //ImageIcon bgImg = new ImageIcon("src/images/background_1.jpg");
+        ImageIcon bgImg = new ImageIcon(getClass().getResource("/images/background_1.jpg"));
         JLabel background = new JLabel("",bgImg, JLabel.CENTER);
         add(background);
         background.add(header);
